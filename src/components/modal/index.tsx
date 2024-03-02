@@ -1,20 +1,13 @@
 import { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
-type IFormInput = {
-  id?: string;
-  subject: string;
-  priority: string;
-  description: string;
-  status?: string;
-};
+import { TItem } from '../../types';
 
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  onOk: (data: IFormInput) => void;
-  data?: IFormInput;
+  onOk: (data: TItem) => void;
+  data?: TItem;
 };
 
 const Modal = ({ isOpen, onClose, title, onOk, data }: ModalProps) => {
@@ -23,7 +16,7 @@ const Modal = ({ isOpen, onClose, title, onOk, data }: ModalProps) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormInput>({
+  } = useForm<TItem>({
     defaultValues: {
       subject: data?.subject || '',
       priority: data?.priority || '',
@@ -37,7 +30,7 @@ const Modal = ({ isOpen, onClose, title, onOk, data }: ModalProps) => {
     onClose();
   }, [reset, onClose]);
 
-  const onSubmit: SubmitHandler<IFormInput> = useCallback(
+  const onSubmit: SubmitHandler<TItem> = useCallback(
     (formData) => {
       const newData = data?.id ? { ...formData, id: data.id } : { ...formData };
 
